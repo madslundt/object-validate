@@ -121,8 +121,10 @@ describe("Schema", () => {
         name: { type: String },
         address: {
           required: false,
-          street: { required: true, type: String },
-          city: { required: true, type: String },
+          properties: {
+            street: { required: true, type: String },
+            city: { required: true, type: String },
+          }
         },
       });
       const res = schema.validate(obj);
@@ -137,8 +139,10 @@ describe("Schema", () => {
         name: { type: String },
         address: {
           required: false,
-          street: { required: true, type: String },
-          city: { required: true, type: String },
+          properties: {
+            street: { required: true, type: String },
+            city: { required: true, type: String },
+          }
         },
       });
       const res = schema.validate(obj);
@@ -148,35 +152,39 @@ describe("Schema", () => {
       const obj = {
         name: "name",
         age: 23,
-        street: {},
+        address: {},
       };
       const schema = new Schema({
         name: { type: String },
         address: {
           required: false,
-          street: { required: true, type: String },
-          city: { required: true, type: String },
+          properties: {
+            street: { required: true, type: String },
+            city: { required: true, type: String },
+          }
         },
       });
       const res = schema.validate(obj);
-      expect(res).toHaveLength(0);
+      expect(res).toHaveLength(2);
     });
     test("should return error when null object is required and have required properties", () => {
       const obj = {
         name: "name",
         age: 23,
-        street: null,
+        address: null,
       };
       const schema = new Schema({
         name: { type: String },
         address: {
           required: true,
-          street: { required: true, type: String },
-          city: { required: true, type: String },
+          properties: {
+            street: { required: true, type: String },
+            city: { required: true, type: String },
+          }
         },
       });
       const res = schema.validate(obj);
-      expect(res).toHaveLength(0);
+      expect(res).toHaveLength(3);
     });
     test("should return error when undefined object is required and have required properties", () => {
       const obj = {
@@ -187,12 +195,14 @@ describe("Schema", () => {
         name: { type: String },
         address: {
           required: true,
-          street: { required: true, type: String },
-          city: { required: true, type: String },
+          properties: {
+            street: { required: true, type: String },
+            city: { required: true, type: String },
+          }
         },
       });
       const res = schema.validate(obj);
-      expect(res).toHaveLength(0);
+      expect(res).toHaveLength(3);
     });
     test("should return an array of errors", () => {
       const schema = new Schema({ name: { type: String } });

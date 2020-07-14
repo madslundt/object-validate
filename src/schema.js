@@ -213,7 +213,7 @@ export default class Schema {
   validate(obj, opts = {}) {
     opts = Object.assign(this.opts, opts);
 
-    const errors = [];
+    let errors = [];
 
     if (opts.typecast) {
       this.typecast(obj);
@@ -227,18 +227,27 @@ export default class Schema {
 
     for (const [path, prop] of Object.entries(this.props)) {
       enumerate(path, obj, (key, value) => {
-        if (!nullableKeys.some((k) => key.startsWith(k))) {
-          if (key.endsWith(".required")) {
-            const itemKey = key.replace(".required", "");
-            const item = dot.get(obj, itemKey);
-            if (item === null || typeof item === "undefined") {
-              nullableKeys.push(itemKey);
-            }
+        const args = prop.getRule("required");
+        if (
+          args.length > 0 && args[0] === false &&
+          !nullableKeys.some((k) => path.startsWith(k))
+        ) {
+          const itemKey = key.replace(".required", "");
+          const item = dot.get(obj, itemKey);
+          if (item === null || typeof item === "undefined") {
+            nullableKeys.push(`${itemKey}.`);
           }
-          const err = prop.validate(value, obj, key);
-          if (err) errors.push(err);
         }
+
+        const err = prop.validate(value, obj, key);
+        if (err) errors.push(err);
       });
+    }
+
+    if (nullableKeys.length > 0) {
+      errors = errors.filter(
+        ({ path }) => !nullableKeys.some((key) => path.startsWith(key))
+      );
     }
 
     return errors;
