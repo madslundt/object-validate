@@ -1,10 +1,10 @@
-import dot from '@eivifj/dot';
-import typecast from 'typecast';
-import Property from './property';
-import Messages from './messages';
-import Validators from './validators';
-import ValidationError from './error';
-import { walk, enumerate, join, assign } from './utils';
+import dot from "@eivifj/dot";
+import typecast from "typecast";
+import Property from "./property";
+import Messages from "./messages";
+import Validators from "./validators";
+import ValidationError from "./error";
+import { walk, enumerate, join, assign } from "./utils";
 
 /**
  * A Schema defines the structure that objects should be validated against.
@@ -43,8 +43,7 @@ import { walk, enumerate, join, assign } from './utils';
  * @param {Object} [obj] - schema definition
  * @param {Object} [opts] - options
  * @param {Boolean} [opts.typecast=false] - typecast values before validation
- * @param {Boolean} [opts.strip=true] - strip properties not defined in the schema
- * @param {Boolean} [opts.strict=false] - validation fails when object contains properties not defined in the schema
+ * @param {Boolean} [opts.strict=false] - validation fails when object contain properties not defined in the schema
  */
 
 export default class Schema {
@@ -55,7 +54,7 @@ export default class Schema {
     this.messages = Object.assign({}, Messages);
     this.validators = Object.assign({}, Validators);
     this.typecasters = Object.assign({}, typecast);
-    Object.keys(obj).forEach(k => this.path(k, obj[k]));
+    Object.keys(obj).forEach((k) => this.path(k, obj[k]));
   }
 
   /**
@@ -72,9 +71,9 @@ export default class Schema {
    */
 
   path(path, rules) {
-    const parts = path.split('.');
+    const parts = path.split(".");
     const suffix = parts.pop();
-    const prefix = parts.join('.');
+    const prefix = parts.join(".");
 
     // Make sure full path is created
     if (prefix) {
@@ -82,7 +81,7 @@ export default class Schema {
     }
 
     // Array index placeholder
-    if (suffix === '$') {
+    if (suffix === "$") {
       this.path(prefix).type(Array);
     }
 
@@ -111,7 +110,7 @@ export default class Schema {
 
     // type shorthand
     // `{ name: String }`
-    if (typeof rules == 'string' || typeof rules == 'function') {
+    if (typeof rules == "string" || typeof rules == "function") {
       prop.type(rules);
       return prop;
     }
@@ -136,13 +135,12 @@ export default class Schema {
 
     // Check for nested objects
     for (const key of keys) {
-      if (typeof prop[key] == 'function') continue;
+      if (typeof prop[key] == "function") continue;
       prop.type(Object);
       nested = true;
       break;
     }
-
-    keys.forEach(key => {
+    keys.forEach((key) => {
       const rule = rules[key];
 
       if (nested) {
@@ -172,25 +170,6 @@ export default class Schema {
         dot.set(obj, key, cast);
       });
     }
-
-    return this;
-  }
-
-  /**
-   * Strip all keys not defined in the schema
-   *
-   * @param {Object} obj - the object to strip
-   * @param {String} [prefix]
-   * @return {Schema}
-   * @private
-   */
-
-  strip(obj) {
-    walk(obj, (path, prop) => {
-      if (this.props[prop]) return true;
-      dot.delete(obj, path);
-      return false;
-    });
 
     return this;
   }
@@ -244,14 +223,21 @@ export default class Schema {
       errors.push(...this.enforce(obj));
     }
 
-    if (opts.strip !== false) {
-      this.strip(obj);
-    }
+    const nullableKeys = [];
 
     for (const [path, prop] of Object.entries(this.props)) {
       enumerate(path, obj, (key, value) => {
-        const err = prop.validate(value, obj, key);
-        if (err) errors.push(err);
+        if (!nullableKeys.some((k) => key.startsWith(k))) {
+          if (key.endsWith(".required")) {
+            const itemKey = key.replace(".required", "");
+            const item = dot.get(obj, itemKey);
+            if (item === null || typeof item === "undefined") {
+              nullableKeys.push(itemKey);
+            }
+          }
+          const err = prop.validate(value, obj, key);
+          if (err) errors.push(err);
+        }
       });
     }
 
@@ -356,7 +342,7 @@ export default class Schema {
    */
 
   propagate(path, prop) {
-    this.hooks.forEach(fn => fn(path, prop));
+    this.hooks.forEach((fn) => fn(path, prop));
     return this;
   }
 }

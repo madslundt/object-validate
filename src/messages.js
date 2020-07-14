@@ -7,7 +7,7 @@
 const Messages = {
   // Type message
   type(prop, ctx, type) {
-    if (typeof type == 'function') {
+    if (typeof type == "function") {
       type = type.name;
     }
 
@@ -26,7 +26,7 @@ const Messages = {
 
   // Length message
   length(prop, ctx, len) {
-    if (typeof len == 'number') {
+    if (typeof len == "number") {
       return `${prop} must have a length of ${len}.`;
     }
 
@@ -45,7 +45,7 @@ const Messages = {
 
   // Size message
   size(prop, ctx, size) {
-    if (typeof size == 'number') {
+    if (typeof size == "number") {
       return `${prop} must have a size of ${size}.`;
     }
 
@@ -66,7 +66,7 @@ const Messages = {
   enum(prop, ctx, enums) {
     const copy = enums.slice();
     const last = copy.pop();
-    return `${prop} must be either ${copy.join(', ')} or ${last}.`;
+    return `${prop} must be either ${copy.join(", ")} or ${last}.`;
   },
 
   // Illegal property
@@ -77,7 +77,7 @@ const Messages = {
   // Default message
   default(prop) {
     return `Validation failed for ${prop}.`;
-  }
+  },
 };
 
 export default Messages;

@@ -1,5 +1,5 @@
-import dot from '@eivifj/dot';
-import typeOf from 'component-type';
+import dot from "@eivifj/dot";
+import typeOf from "component-type";
 
 /**
  * Assign given key and value (or object) to given object
@@ -8,12 +8,12 @@ import typeOf from 'component-type';
  */
 
 export function assign(key, val, obj) {
-  if (typeof key == 'string') {
+  if (typeof key == "string") {
     obj[key] = val;
     return;
   }
 
-  Object.keys(key).forEach(k => obj[k] = key[k]);
+  Object.keys(key).forEach((k) => (obj[k] = key[k]));
 }
 
 /**
@@ -37,7 +37,7 @@ export function enumerate(path, obj, callback) {
 
   for (let i = 0; i < arr.length; i++) {
     const current = join(i, first);
-    const next = current + parts.join('.$');
+    const next = current + parts.join(".$");
     enumerate(next, obj, callback);
   }
 }
@@ -51,14 +51,12 @@ export function enumerate(path, obj, callback) {
 export function walk(obj, callback, path, prop) {
   const type = typeOf(obj);
 
-  if (type === 'array') {
-    obj.forEach((v, i) =>
-      walk(v, callback, join(i, path), join('$', prop))
-    );
+  if (type === "array") {
+    obj.forEach((v, i) => walk(v, callback, join(i, path), join("$", prop)));
     return;
   }
 
-  if (type !== 'object') {
+  if (type !== "object") {
     return;
   }
 
@@ -78,7 +76,5 @@ export function walk(obj, callback, path, prop) {
  */
 
 export function join(path, prefix) {
-  return prefix
-    ? `${prefix}.${path}`
-    : path;
+  return prefix ? `${prefix}.${path}` : path;
 }

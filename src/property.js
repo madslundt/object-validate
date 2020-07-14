@@ -1,5 +1,5 @@
-import ValidationError from './error';
-import { join } from './utils';
+import ValidationError from "./error";
+import { join } from "./utils";
 
 /**
  * A property instance gets returned whenever you call `schema.path()`.
@@ -30,7 +30,7 @@ export default class Property {
    */
 
   message(messages) {
-    if (typeof messages == 'string') {
+    if (typeof messages == "string") {
       messages = { default: messages };
     }
 
@@ -86,7 +86,7 @@ export default class Property {
    */
 
   use(fns) {
-    Object.keys(fns).forEach(name => {
+    Object.keys(fns).forEach((name) => {
       let arr = fns[name];
       if (!Array.isArray(arr)) arr = [arr];
       const fn = arr.shift();
@@ -107,7 +107,7 @@ export default class Property {
    */
 
   required(bool = true) {
-    return this._register('required', [bool]);
+    return this._register("required", [bool]);
   }
 
   /**
@@ -125,7 +125,7 @@ export default class Property {
 
   type(type) {
     this._type = type;
-    return this._register('type', [type]);
+    return this._register("type", [type]);
   }
 
   /**
@@ -194,7 +194,7 @@ export default class Property {
    */
 
   length(rules) {
-    return this._register('length', [rules]);
+    return this._register("length", [rules]);
   }
 
   /**
@@ -211,7 +211,7 @@ export default class Property {
    */
 
   size(rules) {
-    return this._register('size', [rules]);
+    return this._register("size", [rules]);
   }
 
   /**
@@ -225,7 +225,7 @@ export default class Property {
    */
 
   enum(enums) {
-    return this._register('enum', [enums]);
+    return this._register("enum", [enums]);
   }
 
   /**
@@ -239,7 +239,7 @@ export default class Property {
    */
 
   match(regexp) {
-    return this._register('match', [regexp]);
+    return this._register("match", [regexp]);
   }
 
   /**
@@ -256,7 +256,7 @@ export default class Property {
    */
 
   each(rules) {
-    this._schema.path(join('$', this.name), rules);
+    this._schema.path(join("$", this.name), rules);
     return this;
   }
 
@@ -328,14 +328,14 @@ export default class Property {
 
     if (!type) return value;
 
-    if (typeof type == 'function') {
+    if (typeof type == "function") {
       type = type.name;
     }
 
-    const cast = schema.typecasters[type] ||
-      schema.typecasters[type.toLowerCase()];
+    const cast =
+      schema.typecasters[type] || schema.typecasters[type.toLowerCase()];
 
-    if (typeof cast != 'function') {
+    if (typeof cast != "function") {
       throw new Error(`Typecasting failed: No typecaster defined for ${type}.`);
     }
 
@@ -416,12 +416,13 @@ export default class Property {
   _error(type, ctx, args, path) {
     const schema = this._schema;
 
-    let message = this.messages[type] ||
+    let message =
+      this.messages[type] ||
       this.messages.default ||
       schema.messages[type] ||
       schema.messages.default;
 
-    if (typeof message == 'function') {
+    if (typeof message == "function") {
       message = message(path, ctx, ...args);
     }
 

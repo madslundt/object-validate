@@ -2,10 +2,6 @@
 
 Validate object properties in javascript.
 
-[![npm version](http://img.shields.io/npm/v/validate.svg?style=flat-square)](https://npmjs.org/package/validate)
-[![Build Status](http://img.shields.io/travis/eivindfjeldstad/validate.svg?style=flat-square)](https://travis-ci.org/eivindfjeldstad/validate)
-[![Codecov](https://img.shields.io/codecov/c/github/eivindfjeldstad/validate.svg?style=flat-square)](https://codecov.io/gh/eivindfjeldstad/validate)
-
 ## Usage
 
 Define a schema and call `.validate()` with the object you want to validate.
@@ -408,7 +404,7 @@ Registers messages.
 
 ##### Parameters
 
--   `messages` **([Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object) \| [String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))** 
+-   `messages` **([Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object) \| [String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))**
 
 ##### Examples
 
@@ -417,7 +413,7 @@ prop.message('something is wrong')
 prop.message({ required: 'thing is required.' })
 ```
 
-Returns **[Property](#property)** 
+Returns **[Property](#property)**
 
 #### schema
 
@@ -434,7 +430,7 @@ const user = new Schema({ email: String })
 prop.schema(user)
 ```
 
-Returns **[Property](#property)** 
+Returns **[Property](#property)**
 
 #### use
 
@@ -466,11 +462,12 @@ prop.use({
 })
 ```
 
-Returns **[Property](#property)** 
+Returns **[Property](#property)**
 
 #### required
 
 Registers a validator that checks for presence.
+When required is not set or set to false, all property validations in the object are ignored when the object is null or undefined.
 
 ##### Parameters
 
@@ -482,7 +479,7 @@ Registers a validator that checks for presence.
 prop.required()
 ```
 
-Returns **[Property](#property)** 
+Returns **[Property](#property)**
 
 #### type
 
@@ -502,7 +499,7 @@ prop.type(String)
 prop.type('string')
 ```
 
-Returns **[Property](#property)** 
+Returns **[Property](#property)**
 
 #### string
 
@@ -514,7 +511,7 @@ Convenience method for setting type to `String`
 prop.string()
 ```
 
-Returns **[Property](#property)** 
+Returns **[Property](#property)**
 
 #### number
 
@@ -526,7 +523,7 @@ Convenience method for setting type to `Number`
 prop.number()
 ```
 
-Returns **[Property](#property)** 
+Returns **[Property](#property)**
 
 #### array
 
@@ -538,7 +535,7 @@ Convenience method for setting type to `Array`
 prop.array()
 ```
 
-Returns **[Property](#property)** 
+Returns **[Property](#property)**
 
 #### date
 
@@ -550,7 +547,7 @@ Convenience method for setting type to `Date`
 prop.date()
 ```
 
-Returns **[Property](#property)** 
+Returns **[Property](#property)**
 
 #### length
 
@@ -569,7 +566,7 @@ prop.length({ min: 8, max: 255 })
 prop.length(10)
 ```
 
-Returns **[Property](#property)** 
+Returns **[Property](#property)**
 
 #### size
 
@@ -588,7 +585,7 @@ prop.size({ min: 8, max: 255 })
 prop.size(10)
 ```
 
-Returns **[Property](#property)** 
+Returns **[Property](#property)**
 
 #### enum
 
@@ -596,7 +593,7 @@ Registers a validator for enums.
 
 ##### Parameters
 
--   `enums`  
+-   `enums`
 -   `rules` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** allowed values
 
 ##### Examples
@@ -605,7 +602,7 @@ Registers a validator for enums.
 prop.enum(['cat', 'dog'])
 ```
 
-Returns **[Property](#property)** 
+Returns **[Property](#property)**
 
 #### match
 
@@ -621,7 +618,7 @@ Registers a validator that checks if a value matches given `regexp`.
 prop.match(/some\sregular\sexpression/)
 ```
 
-Returns **[Property](#property)** 
+Returns **[Property](#property)**
 
 #### each
 
@@ -640,7 +637,7 @@ prop.each({ things: [{ type: String }]})
 prop.each(schema)
 ```
 
-Returns **[Property](#property)** 
+Returns **[Property](#property)**
 
 #### elements
 
@@ -656,7 +653,7 @@ Registers paths for array elements on the parent schema, with given array of rul
 prop.elements([{ type: String }, { type: Number }])
 ```
 
-Returns **[Property](#property)** 
+Returns **[Property](#property)**
 
 #### properties
 
@@ -675,7 +672,7 @@ prop.properties({
 })
 ```
 
-Returns **[Property](#property)** 
+Returns **[Property](#property)**
 
 #### path
 
@@ -683,7 +680,7 @@ Proxy method for schema path. Makes chaining properties together easier.
 
 ##### Parameters
 
--   `args` **...any** 
+-   `args` **...any**
 
 ##### Examples
 
@@ -708,7 +705,7 @@ prop.type(String)
 prop.typecast(123) // => '123'
 ```
 
-Returns **Mixed** 
+Returns **Mixed**
 
 #### validate
 
@@ -728,7 +725,7 @@ assert(prop.validate(2) == null)
 assert(prop.validate('hello world') instanceof Error)
 ```
 
-Returns **ValidationError** 
+Returns **ValidationError**
 
 ### Schema
 
@@ -794,7 +791,7 @@ schema.path('name.first', { type: String })
 schema.path('name.last').type(String).required()
 ```
 
-Returns **[Property](#property)** 
+Returns **[Property](#property)**
 
 #### validate
 
@@ -815,7 +812,7 @@ assert(errors[0].message == 'name is required')
 assert(errors[0].path == 'name')
 ```
 
-Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** 
+Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)**
 
 #### assert
 
@@ -823,8 +820,8 @@ Assert that given `obj` is valid.
 
 ##### Parameters
 
--   `obj` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
--   `opts` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)?** 
+-   `obj` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)**
+-   `opts` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)?**
 
 ##### Examples
 
@@ -854,7 +851,7 @@ schema.message('hex', path => `${path} must be hexadecimal`)
 schema.message({ hex: path => `${path} must be hexadecimal` })
 ```
 
-Returns **[Schema](#schema)** 
+Returns **[Schema](#schema)**
 
 #### validator
 
@@ -875,7 +872,7 @@ schema.validator('required', val => val != null)
 schema.validator({ required: val => val != null })
 ```
 
-Returns **[Schema](#schema)** 
+Returns **[Schema](#schema)**
 
 #### typecaster
 
@@ -896,7 +893,7 @@ schema.typecaster('SomeClass', val => new SomeClass(val))
 schema.typecaster({ SomeClass: val => new SomeClass(val) })
 ```
 
-Returns **[Schema](#schema)** 
+Returns **[Schema](#schema)**
 
 ## Licence
 

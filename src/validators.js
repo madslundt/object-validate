@@ -1,4 +1,4 @@
-import typeOf from 'component-type';
+import typeOf from "component-type";
 
 /**
  * Default validators.
@@ -18,7 +18,7 @@ const Validators = {
 
   required(value, ctx, required) {
     if (required === false) return true;
-    return value != null && value !== '';
+    return value != null && value !== "";
   },
 
   /**
@@ -33,7 +33,7 @@ const Validators = {
   type(value, ctx, name) {
     if (value == null) return true;
 
-    if (typeof name == 'function') {
+    if (typeof name == "function") {
       return value.constructor === name;
     }
 
@@ -53,7 +53,7 @@ const Validators = {
 
   length(value, ctx, len) {
     if (value == null) return true;
-    if (typeof len == 'number') {
+    if (typeof len == "number") {
       return value.length === len;
     }
     const { min, max } = len;
@@ -75,7 +75,7 @@ const Validators = {
 
   size(value, ctx, size) {
     if (value == null) return true;
-    if (typeof size == 'number') {
+    if (typeof size == "number") {
       return value === size;
     }
     const { min, max } = size;
@@ -110,7 +110,7 @@ const Validators = {
   match(value, ctx, regexp) {
     if (value == null) return true;
     return regexp.test(value);
-  }
+  },
 };
 
 export default Validators;
