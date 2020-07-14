@@ -1,9 +1,9 @@
 {
-  "name": "object-validate",
+  "name": "simple-schema-validator",
   "description": "Validate object properties in javascript.",
   "version": "1.0.0",
   "author": "Mads Engel Lundt",
-  "repository": "madslundt/object-validation",
+  "repository": "madslundt/simple-schema-validator",
   "keywords": [
     "validation",
     "validate",
