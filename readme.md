@@ -1,4 +1,4 @@
-# validate
+# Simple Schema Validation
 
 [![npm version](http://img.shields.io/npm/v/simple-schema-validation.svg?style=flat-square)](https://npmjs.org/package/simple-schema-validation)
 
