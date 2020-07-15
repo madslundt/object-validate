@@ -230,36 +230,19 @@ export default class Schema {
         const err = prop.validate(value, obj, key);
         if (err) errors.push(err);
       });
-      if (prop.getRule("nullable") && !errors.some((e) => e.path === path)) {
-        nullablePaths.push(`${path}.`);
+      if (prop.getRule("nullable") && prop.getRule("nullable")[0] === true) {
+        const item = dot.get(obj, path);
+        if (item === null || typeof item === "undefined") {
+          nullablePaths.push(path);
+        }
       }
     }
-
-    errors = errors
-      .filter(({ path }) => {
-        if (!nullablePaths.some((p) => path.startsWith(p))) {
-          return true;
-        }
-
-        const split = path.split(".");
-        const length = split.length;
-        if (length <= 1) {
-          return true;
-        }
-
-        let lastKey = null;
-        for (let i = length - 1; i > 0; i--) {
-          const key = split.slice(0, i).join(".");
-          const value = dot.get(obj, key);
-          if (value === null || typeof value === "undefined") {
-            lastKey = key;
-          } else {
-            break;
-          }
-        }
-
-        return !lastKey || errors.some(({ path }) => path === lastKey);
-      });
+    if (nullablePaths.length > 0) {
+      errors = errors.filter(
+        ({ path }) =>
+          !nullablePaths.some((p) => path === p || path.startsWith(`${p}.`))
+      );
+    }
 
     return errors;
   }

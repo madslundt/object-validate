@@ -130,7 +130,7 @@ describe("Schema", () => {
       const res = schema.validate(obj);
       expect(res).toHaveLength(0);
     });
-    test("should not return error when undefined object is nullable and have required properties", () => {
+    test("should not return error when undefined object is nullable and required and have required properties", () => {
       const obj = {
         name: "name",
         age: 23,
@@ -139,6 +139,7 @@ describe("Schema", () => {
         name: { type: String },
         address: {
           nullable: true,
+          required: true,
           properties: {
             street: { required: true, type: String },
             city: { required: true, type: String },
