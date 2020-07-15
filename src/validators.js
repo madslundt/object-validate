@@ -22,6 +22,20 @@ const Validators = {
   },
 
   /**
+   * Validates nullable.
+   *
+   * @param {Mixed} value - the value being validated
+   * @param {Object} ctx - the object being validated
+   * @param {Bolean} nullable
+   * @return {Boolean}
+   */
+
+  nullable(value, ctx, nullable) {
+    if (nullable === true) return true;
+    return value != null && value !== "";
+  },
+
+  /**
    * Validates type.
    *
    * @param {Mixed} value - the value being validated

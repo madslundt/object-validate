@@ -30,6 +30,9 @@ Validate object properties in javascript.
     - [required](#required)
       * [Parameters](#parameters-4)
       * [Examples](#examples-3)
+    - [nullable](#nullable)
+      * [Parameters](#parameters-4)
+      * [Examples](#examples-3)
     - [type](#type)
       * [Parameters](#parameters-5)
       * [Examples](#examples-4)
@@ -581,7 +584,6 @@ Returns **[Property](#property)**
 #### required
 
 Registers a validator that checks for presence.
-When required is not set or set to false, all property validations in the object are ignored when the object is null or undefined.
 
 ##### Parameters
 
@@ -591,6 +593,23 @@ When required is not set or set to false, all property validations in the object
 
 ```javascript
 prop.required()
+```
+
+Returns **[Property](#property)**
+
+#### nullable
+
+Registers a validator that checks for nullable objects.
+If set to true and object is null or undefined children do not add validation errors.
+
+##### Parameters
+
+-   `bool` **[Boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** `true` if nullable, `false` otherwise (optional, default `false`)
+
+##### Examples
+
+```javascript
+prop.nullable()
 ```
 
 Returns **[Property](#property)**

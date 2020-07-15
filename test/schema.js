@@ -111,7 +111,7 @@ describe("Schema", () => {
       schema.validate(obj);
       expect(obj).toHaveProperty("age", 23);
     });
-    test("should not return error when null object is not required and have required properties", () => {
+    test("should not return error when null object is nullable and have required properties", () => {
       const obj = {
         name: "name",
         age: 23,
@@ -120,7 +120,7 @@ describe("Schema", () => {
       const schema = new Schema({
         name: { type: String },
         address: {
-          required: false,
+          nullable: true,
           properties: {
             street: { required: true, type: String },
             city: { required: true, type: String },
@@ -130,7 +130,7 @@ describe("Schema", () => {
       const res = schema.validate(obj);
       expect(res).toHaveLength(0);
     });
-    test("should not return error when undefined object is not required and have required properties", () => {
+    test("should not return error when undefined object is nullable and have required properties", () => {
       const obj = {
         name: "name",
         age: 23,
@@ -138,7 +138,7 @@ describe("Schema", () => {
       const schema = new Schema({
         name: { type: String },
         address: {
-          required: false,
+          nullable: true,
           properties: {
             street: { required: true, type: String },
             city: { required: true, type: String },
@@ -148,7 +148,7 @@ describe("Schema", () => {
       const res = schema.validate(obj);
       expect(res).toHaveLength(0);
     });
-    test("should return error when empty object is not required and have required properties", () => {
+    test("should return error when empty object is nullable and have required properties", () => {
       const obj = {
         name: "name",
         age: 23,
@@ -157,7 +157,7 @@ describe("Schema", () => {
       const schema = new Schema({
         name: { type: String },
         address: {
-          required: false,
+          nullable: true,
           properties: {
             street: { required: true, type: String },
             city: { required: true, type: String },
@@ -167,7 +167,7 @@ describe("Schema", () => {
       const res = schema.validate(obj);
       expect(res).toHaveLength(2);
     });
-    test("should return error when null object is required and have required properties", () => {
+    test("should return error when null object is not nullable and have required properties", () => {
       const obj = {
         name: "name",
         age: 23,
@@ -176,7 +176,7 @@ describe("Schema", () => {
       const schema = new Schema({
         name: { type: String },
         address: {
-          required: true,
+          nullable: false,
           properties: {
             street: { required: true, type: String },
             city: { required: true, type: String },
