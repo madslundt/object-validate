@@ -111,20 +111,6 @@ export default class Property {
   }
 
   /**
-   * Registers a validator that checks for nullable.
-   *
-   * @example
-   * prop.nullable()
-   *
-   * @param {Boolean} [bool] - `true` if nullable, `false` otherwise
-   * @return {Property}
-   */
-
-  nullable(bool = false) {
-    return this._register("nullable", [bool]);
-  }
-
-  /**
    * Registers a validator that checks if a value is of a given `type`
    *
    * @example

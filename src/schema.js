@@ -230,13 +230,14 @@ export default class Schema {
         const err = prop.validate(value, obj, key);
         if (err) errors.push(err);
       });
-      if (prop.getRule("nullable") && prop.getRule("nullable")[0] === true) {
+      if (prop.getRule("required") && prop.getRule("required")[0] === false) {
         const item = dot.get(obj, path);
         if (item === null || typeof item === "undefined") {
           nullablePaths.push(path);
         }
       }
     }
+
     if (nullablePaths.length > 0) {
       errors = errors.filter(
         ({ path }) =>
